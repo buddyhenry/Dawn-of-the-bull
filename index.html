@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BLOOBY Coin</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Grandstander:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Grandstander", cursive;
+        background-color: #18181b;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        border-radius: 5px;
+        z-index: 1000;
+        opacity: 0;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .toast.show {
+        bottom: 20px;
+        opacity: 1;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="bg-zinc-900 text-white min-h-screen flex flex-col items-center justify-center mt-8"
+    >
+      <!-- <h1 class="text-4xl font-bold mb-4">Welcome to BLOOBY Coin</h1> -->
+      <h1 class="text-4xl font-bold mb-4 text-center">
+        <span class="md:inline hidden">Welcome to </span
+        ><span>BLOOBY Coin</span>
+      </h1>
+
+      <p class="text-lg mb-8">The future of digital currency!</p>
+      <img
+        src="https://i.postimg.cc/25bCdPWB/photo-2024-04-25-19-18-16.png"
+        alt="BLOOBY Coin Logo"
+        class="rounded-lg shadow-lg mb-8"
+        crossorigin="anonymous"
+      />
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div class="bg-zinc-800 p-4 rounded-lg">
+          <h2 class="text-2xl font-bold mb-2">About BLOOBY Coin</h2>
+          <p class="text-lg">
+            BLOOBY Coin is a revolutionary cryptocurrency based on internet
+            memes.
+          </p>
+        </div>
+        <div class="bg-zinc-800 p-4 rounded-lg">
+          <h2 class="text-2xl font-bold mb-2">Why BLOOBY Coin?</h2>
+          <p class="text-lg">
+            Join the meme revolution and invest in the future of humor!
+          </p>
+        </div>
+      </div>
+      <div class="bg-zinc-800 text-white p-6 rounded-lg mb-8">
+        <h1 class="text-3xl font-bold mb-6 text-center md:text-left">
+          Tokenomics
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex flex-col mb-4">
+            <label class="mb-2 font-semibold">CONTRACT ADDRESS:</label>
+            <input
+              type="text"
+              id="contractAddress"
+              value="0xfdca97838dfb8264db6eb7cfbea6e33c3e726417"
+              class="border-2 border-gray-600 p-2 text-black bg-white rounded-md"
+              readonly
+            />
+          </div>
+          <div class="flex flex-col mb-4">
+            <label class="mb-2 font-semibold">TICKER:</label>
+            <input
+              type="text"
+              value="$BLOOBY"
+              class="border-2 border-gray-600 p-2 text-black bg-white rounded-md"
+              readonly
+            />
+          </div>
+          <div class="flex flex-col mb-4">
+            <label class="mb-2 font-semibold">TAX:</label>
+            <input
+              type="text"
+              value="0%"
+              class="border-2 border-gray-600 p-2 text-black bg-white rounded-md"
+              readonly
+            />
+          </div>
+          <div class="flex flex-col mb-4">
+            <label class="mb-2 font-semibold">LP:</label>
+            <input
+              type="text"
+              value="BURNED"
+              class="border-2 border-gray-600 p-2 text-black bg-white rounded-md"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <button
+          id="buyBtn"
+          class="bg-blue-500 text-white p-3 rounded-lg w-full md:w-auto"
+        >
+          Buy BLOOBY on Uniswap
+        </button>
+        <button
+          id="viewDexBtn"
+          class="bg-blue-500 text-white p-3 rounded-lg w-full md:w-auto"
+        >
+          View on Dexscreener
+        </button>
+        <a
+          href="https://t.me/Theblobbycommunity"
+          target="_blank"
+          class="bg-blue-500 text-white p-3 rounded-lg w-full md:w-auto text-center md:text-left"
+          >Join Telegram</a
+        >
+      </div>
+    </div>
+    <footer class="bg-zinc-900 text-white py-8">
+      <div
+        class="container mx-auto px-4 flex items-center justify-center h-full text-xs"
+      >
+        DISCLOSURE: By purchasing BLOOBY coin, you agree that you are not
+        purchasing a security or investment contract and you agree to hold the
+        team harmless and not liable for any losses or taxes you may incur.
+        Although BLOOBY is a community-driven Defi Ecosystem and not a
+        registered digital currency, always make sure that you are in compliance
+        with local laws and regulations before you make any purchase.
+      </div>
+    </footer>
+
+    <div id="toast" class="toast hidden">Contract address copied!</div>
+
+    <script>
+      const contractAddressInput = document.getElementById("contractAddress");
+      const buyBtn = document.getElementById("buyBtn");
+      const viewDexBtn = document.getElementById("viewDexBtn");
+      const toast = document.getElementById("toast");
+
+      contractAddressInput.addEventListener("click", () => {
+        contractAddressInput.select();
+        contractAddressInput.setSelectionRange(0, 99999); // For mobile devices
+
+        navigator.clipboard
+          .writeText(contractAddressInput.value)
+          .then(() => {
+            showToast();
+          })
+          .catch((err) => {
+            console.error("Could not copy text: ", err);
+          });
+      });
+
+      buyBtn.addEventListener("click", () => {
+        window.open(
+          "https://app.uniswap.org/#/swap?inputCurrency=0x5d8741d2596dfd1815f22c15497f47d57f2b8ccf", //change replace with your token address here
+          "_blank"
+        );
+      });
+
+      viewDexBtn.addEventListener("click", () => {
+        window.open(
+          "https://dexscreener.com/ethereum/0xfdca97838dfb8264db6eb7cfbea6e33c3e726417", //change replace with your token address here
+          "_blank"
+        );
+      });
+
+      function showToast() {
+        toast.classList.remove("hidden");
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+          toast.classList.add("hidden");
+        }, 3000); // The toast will disappear after 3 seconds
+      }
+    </script>
+  </body>
+</html>
